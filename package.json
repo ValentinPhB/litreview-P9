@@ -1,0 +1,19 @@
+{
+  "name": "litreview",
+  "version": "1.0.0",
+  "description": "Web application for OpenClassroom.",
+  "main": "index.js",
+  "scripts": {
+    "sass": "./static/scss/style.scss:./static/css/style.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ValentinPhB/litreview-P9.git"
+  },
+  "author": "Valentin Pheulpin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ValentinPhB/litreview-P9/issues"
+  },
+  "homepage": "https://github.com/ValentinPhB/litreview-P9#readme"
+}
