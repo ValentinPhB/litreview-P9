@@ -1,0 +1,115 @@
+{% load static %}
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <title>LitReview</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
+    <link rel='icon' href="{% static 'media/img/litreview.png' %}" type='image/x-icon' sizes="30x30" />
+</head>
+<header>
+    {% if user.is_authenticated %}
+    <nav class="navbar navbar-dark bg-gradient bg-info d-flex justify-content-between">
+        <div class="container d-flex justify-content-between">
+            <img src="{% static 'media/img/litreview.png' %}" width="100" height="110" alt="Site logo">
+            <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center">
+                <h1><strong>LitReview</strong></h1>
+                <img src="{% static 'media/img/pencil.svg' %}" alt="pencil logo" width="40" height="50"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" class="mr-2">
+                </img>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=#navbarNavAltMarkup>
+
+                <span class="navbar-toggler-icon"></span>
+
+            </button>
+        </div>
+    </nav>
+    <div id="navbarNavAltMarkup" class="bg-gradient bg-secondary collapse navbar-collapse">
+        <ul class="nav justify-content-center">
+            <li class="nav-item">
+                <a class="nav-link active" href="#{% url 'home' %}"><strong>Flux</strong></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#"><strong>Post</strong></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#"><strong>Abonnements</strong></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="logout" href="{% url 'logout' %}"><strong>Se Déconnecter</strong></a>
+            </li>
+        </ul>
+    </div>
+    {% else %}
+    <div class="bg-gradient bg-secondary collapse" id="navbarHeader">
+        <div class="container">
+            <div class="row">
+                <div class="col py-4">
+                    <h4 class="text-white">Bienvenue</h4>
+                    <p class="text-black">LitReview est votre platforme pour échanger des avis et critiques sur vos
+                        oeuvres
+                        litéraires préférées mais également pour découvrir les univers des autres utilisateurs.<br />
+                        Postez, commentez et demandez des avis argumentés sur LitReview.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <nav class="navbar navbar-dark bg-gradient bg-info">
+        <div class="container d-flex justify-content-between">
+            <img src="{% static 'media/img/litreview.png' %}" width="100" height="110" alt="Site logo">
+            <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center">
+                <h1><strong>LitReview</strong></h1>
+                <img src="{% static 'media/img/pencil.svg' %}" alt="pencil logo" width="40" height="50"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" class="mr-2">
+                </img>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader"
+                aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+    {% endif %}
+</header>
+
+<body>
+    {% block content %}{% endblock content %}
+    <footer class="fixed-bottom">
+        {% if user.is_authenticated %}
+        <div class="container">
+            <div class="row text-center">
+                <p>Vous êtes connecté en tant que <strong class="text-info">"{{ request.user }}"</strong>.<a
+                        class="nav-link" id="logout_2" href="{% url 'logout' %}">Déconnexion</a></p>
+            </div>
+        </div>
+        {% endif %}
+        <div class="bg-light py-4">
+            <div class="container text-center ">
+                <p class="text-muted mb-0 py-2">© 2021 LitReview</p>
+            </div>
+        </div>
+    </footer>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <!-- End -->
+</body>
+
+</html>
