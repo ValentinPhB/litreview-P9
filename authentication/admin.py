@@ -6,8 +6,8 @@ from django.contrib.auth.models import Group
 
 class TicketInLine(admin.TabularInline):
     model = Ticket
-    readonly_field = ('time_created',)
-    can_delete = False
+    fieldsets = [
+        (None, { 'fields': ['title', 'description', 'image']})]
     extra = 0
 
 

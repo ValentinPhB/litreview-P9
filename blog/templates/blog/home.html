@@ -1,7 +1,39 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Votre flux</h2>
-<div class="grid-container">
-    <h1>TEST VIEW</h1>
+{% for message in messages %}
+<div class="row text-center py-4">
+    <div class="col list-group-item-success text-black py-4" name="{{ message.tags }}">
+            <h5>{{ message }}</h5>
+    </div>
+</div>
+{% endfor %}
+<div class="container py-4">
+    <div class="row">
+        <div class="card mx auto pb-5 shadow">
+                <div class="row justify-content-around mx-0">
+                    <div class="col-12 col-sm-11 col-md-9 col-lg-3">
+                        <div class="row px-1">
+                            <button onclick=window.location.href="{% url 'ticket' %}" class="btn btn-secondary text-black my-3 shadow"
+                                value="go to login"><strong>Demander une critique</strong></button>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-11 col-md-9 col-lg-3">
+                        <div class="row px-1">
+                            <button onclick=window.location.href="{% url 'review' %}" class="btn btn-secondary text-black my-3 shadow"
+                                value="go to login"><strong>Créer une critique</strong></button>
+                        </div>
+                    </div>
+                </div>
+
+            <div class="container">
+            <div class="row px-1 text-center">
+                <h1>Votre flux :</h1>
+            </div>
+            </div>
+            {% for instance in tickets %}
+            {% include 'blog/partials/tickets_snippet.html' with ticket=instance reviews=reviews %}
+            {% endfor %}
+        </div>
+    </div>
 </div>
 {% endblock content %}
