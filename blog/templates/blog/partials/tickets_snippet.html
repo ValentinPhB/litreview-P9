@@ -1,0 +1,49 @@
+<form method="post" novalidate>
+    {% csrf_token %}
+    <div class="container pt-4">
+        <div class="row justify-content-center"">
+            <div class=" col-12 col-sm-10">
+                <div class="card mx-auto shadow">
+                    {% if ticket.user == request.user %}
+                    <h5 class="card-header"><strong>Vous avez demandé une critique</strong></h5>
+                    {% else %}
+                    <h5 class="card-header bg-primary"><strong>{{ ticket.user|title }} a demandé une critique</strong></h5>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title text-center">{{ ticket.title|title }}</h5>
+                        <h6 class="card-subtitle mb-4 text-muted text-center">{{ ticket.time_created }}</h6>
+                        <div class="row">
+                            <div class="col text-center">
+                                {% if ticket.description %}
+                                {% if ticket.user == request.user %}
+                                <h5>Votre mot :</h5>
+                                <p class="card-text mb-3">{{ ticket.description }}</p>
+                                {% else %}
+                                <h5>Mot de {{ ticket.user|title }} :</h5>
+                                <p class="card-text mb-3">{{ ticket.description }}</p>
+                                {% endif %}
+                                {% endif %}
+                            </div>
+                            {% if ticket.image %}
+                            <div class="d-flex justify-content-center">
+                                <img class="img-fluid pt-2 pb-3" src="{{ ticket.image.url }}"
+                                    alt="illustration for {{ ticket.title }}">
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% if ticket.user != request.user %}
+                        <input type="hidden" name="specific-ticket" value="{{ ticket.id }}">
+                        <div class="row justify-content-center pt-2 px-1">
+                            <div class="col-12 col-sm-11 col-md-9 col-lg-6">
+                                <div class="row px-1">
+                                    <button type="submit" class="btn btn-success my-3"><strong>Soumettre une critique à {{ ticket.user|title }}</strong></button>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
