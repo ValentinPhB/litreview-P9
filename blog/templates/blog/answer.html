@@ -4,10 +4,10 @@
     <div class="row">
         <div class="card mx auto shadow">
             <div class="container py-4">
-                <div class="row justify-content-center"">
+                <div class="row justify-content-center">
                     <div class=" col-12 col-sm-10">
                     <div class="card mx-auto shadow">
-                        <h5 class="card-header bg-primary"><strong>Répondre à {{ ticket.user|title }} :</strong></h5>
+                        <h5 class="card-header bg-warning"><strong>Répondre à {{ ticket.user|title }} :</strong></h5>
                         <div class="card-body">
                             <h5 class="card-title text-center">{{ ticket.title|title }}</h5>
                             <h6 class="card-subtitle mb-1 text-muted text-center">{{ ticket.time_created }}</h6>
@@ -17,8 +17,8 @@
                             {% endif %}
                             {% if ticket.image %}
                             <div class="d-flex justify-content-center">
-                            <img class="img-fluid pb-3" max-width:"100%" height="auto" src="{{ ticket.image.url }}"
-                                alt="illustration for {{ ticket.title }}">
+                                <img class="img-fluid pb-3" height="auto" src="{{ ticket.image.url }}"
+                                    alt="illustration for {{ ticket.title }}">
                             </div>
                             {% endif %}
                         </div>
@@ -26,52 +26,46 @@
                     <div class="card mx-auto shadow mt-1">
                         <h4 class="card-header text-center"><strong>Votre critique</strong></h4>
                         <div class="card-body">
-                            <form role="form" action="" method="post" novalidate></form>
-                                <div class="row justify-content-center">
-                                    <div class="col-12 col-sm-11 col-md-9 col-lg-6">
-                                        <div class="row pt-2 mx-1">
-                                            <select class="btn btn-outline-success text-black" name="{{ form.rating.html_name }}" id="{{ form.rating.id_for_label }}">
-                                                <option value="">Cliquez pour choisir votre note</option>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                            </select>
-                                            {% if form.errors %}
-                                            {% for error in form.rating.errors %}
-                                            <div class="list-group-item-danger text-black">
-                                                <strong>{{ error|escape }}</strong>
-                                            </div>
-                                            {% endfor %}
-                                            {% endif %}
+                            <form role="form" action="" method="post" novalidate>
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-12 col-sm-12 col-md-7 col-lg-5">
+                                        <input class="form-control mt-5" id="{{ form.rating.id_for_label }}" name="{{ form.rating.html_name }}" type="number"
+                                            placeholder="Votre note entre 0 et 5" min="0" max="5"/>
+                                        {% if form.errors %}
+                                        {% for error in form.rating.errors %}
+                                        <div class="list-group-item-danger text-black">
+                                            <strong>{{ error|escape }}</strong>
                                         </div>
+                                        {% endfor %}
+                                        {% endif %}
                                     </div>
                                 </div>
                                 <input class="form-control mt-3" id="{{ form.headline.id_for_label }}"
                                     name="{{ form.headline.html_name }}" type="text" placeholder="Votre en-tête..." />
-                                    {% if form.errors %}
-                                    {% for error in form.headline.errors %}
-                                    <div class="list-group-item-danger text-black">
-                                        <strong>{{ error|escape }}</strong>
-                                    </div>
-                                    {% endfor %}
-                                    {% endif %}
+                                {% if form.errors %}
+                                {% for error in form.headline.errors %}
+                                <div class="list-group-item-danger text-black">
+                                    <strong>{{ error|escape }}</strong>
+                                </div>
+                                {% endfor %}
+                                {% endif %}
                                 <textarea class="form-control text-black mt-3" id="{{ form.body.id_for_label }}"
-                                    rows="4" name="{{ form.body.html_name }}" type="text"
+                                    rows="4" name="{{ form.body.html_name }}"
                                     placeholder="Votre avis..."></textarea>
-                                    {% if form.errors %}
-                                    {% for error in form.body.errors %}
-                                    <div class="list-group-item-danger text-black">
-                                        <strong>{{ error|escape }}</strong>
-                                    </div>
-                                    {% endfor %}
-                                    {% endif %}
+                                {% if form.errors %}
+                                {% for error in form.body.errors %}
+                                <div class="list-group-item-danger text-black">
+                                    <strong>{{ error|escape }}</strong>
+                                </div>
+                                {% endfor %}
+                                {% endif %}
+                                <input type="hidden" name="ticket_to_pass" value="{{ ticket.id }}">
                                 <div class="row justify-content-center">
                                     <div class=" col-12 col-sm-11 col-md-9 col-lg-7">
                                         <div class="row pt-2 px-1">
                                             <button type="submit"
-                                                class="btn btn-success mt-3"><strong>Publier</strong></button>
+                                                class="btn btn-success mt-3" name='answer'><strong>Publier</strong></button>
                                         </div>
                                         <div class="row py-2 px-1">
                                             <button onclick=window.location.href="{% url 'login' %}"

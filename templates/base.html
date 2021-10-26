@@ -33,7 +33,7 @@
         </ul>
     </div>
     {% else %}
-    <div id="navbarNavAltMarkup" class="bg-gradient bg-secondary collapse navbar-collapse" id="navbarHeader">
+    <div class="bg-gradient bg-secondary collapse navbar-collapse" id="navbarHeader">
         <div class="container">
             <div class="row">
                 <div class="col py-4">
@@ -57,7 +57,6 @@
                 <img src="{% static 'image/pencil.svg' %}" alt="pencil logo" width="40" height="50"
                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                     stroke-linejoin="round" class="mr-2">
-                </img>
             </a>
             <button class="navbar-toggler d-none d-sm-block" type="button" data-toggle="collapse"
                 data-target=#navbarNavAltMarkup>
@@ -74,7 +73,7 @@
     <footer class="page-footer">
         <div class="footer-copyright text-center bg-light py-4">
             {% if user.is_authenticated %}
-            <p>Vous êtes connecté en tant que <strong>"{{ request.user }}"</strong>.<a class="nav-link" id="logout_2"
+            <p>Vous êtes connecté en tant que <strong>"{{ request.user|title }}"</strong>.<a class="nav-link" id="logout_2"
                     href="{% url 'logout' %}"><strong>Déconnexion</strong></a></p>
             {% endif %}
             <p class="text-muted mb-0 py-1">© 2021 LitReview</p>

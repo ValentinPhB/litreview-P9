@@ -1,0 +1,83 @@
+<div class="container pt-4">
+    <div class="row justify-content-center"">
+        <div class=" col-12 col-sm-10">
+            <div class="card mx-auto shadow pb-4 mb-1">
+                {% if review.user  == request.user %}
+                <h5 class="card-header"><strong>Vous avez publié un critique</strong></h5>
+                <h6 class="card-header text-muted pb-2">{{ review.time_created }}</h6>
+                {% else %}
+                <h5 class="card-header bg-warning"><strong>Critique publiée par {{ review.user|title }} </strong>
+                </h5>
+                <h6 class="card-header text-muted pb-2">{{ review.time_created }}</h6>
+                {% endif %}
+                <div class="card-body text-center">
+                    <h4 class="card-title">{{ review.headline|title }}</h4>
+                    {% if review.rating == 0 %}
+                    <div class="col mb-2">
+                        <img name="rating" alt="rating" src="../../../../static/image/assets/Star_rating_0_of_5.png" height="30">
+                    </div>
+                    {% elif review.rating == 1 %}
+                    <div class="col mb-2">
+                        <img name="rating" alt="rating" src="../../../../static/image/assets/Star_rating_1_of_5.png" height="30">
+                    </div>
+                    {% elif review.rating == 2 %}
+                    <div class="col mb-2">
+                        <img name="rating" alt="rating" src="../../../../static/image/assets/Star_rating_2_of_5.png" height="30">
+                    </div>
+                    {% elif review.rating == 3 %}
+                    <div class="col mb-2">
+                        <img name="rating" alt="rating" src="../../../../static/image/assets/Star_rating_3_of_5.png" height="30">
+                    </div>
+                    {% elif review.rating == 4 %}
+                    <div class="col mb-2">
+                        <img name="rating" alt="rating" src="../../../../static/image/assets/Star_rating_4_of_5.png" height="30">
+                    </div>
+                    {% else %}
+                    <div class="col mb-2">
+                        <img name="rating" alt="rating" src="../../../../static/image/assets/Star_rating_5_of_5.png" height="30">
+                    </div>
+                    {% endif %}
+                    <div class="row">
+                        <div class="col">
+                            {% if review.body %}
+                            <p class="card-text mb-2">{{ review.body }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="card mx-auto shadow">
+                    {% if review.ticket.user == request.user %}
+                    <h5 class="card-header"><strong>Votre ticket</strong></h5>
+                    <h6 class="card-header text-muted pb-2">{{ review.time_created }}</h6>
+                    {% else %}
+                    <h5 class="card-header"><strong>Critique demandée par {{ review.ticket.user|title }}</strong>
+                    </h5>
+                    <h6 class="card-header text-muted pb-2">{{ review.time_created }}</h6>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title text-center">{{ review.ticket.title|title }}</h5>
+                        <div class="row">
+                            <div class="col text-center">
+                                {% if review.ticket.description %}
+                                {% if review.ticket.user == request.user %}
+                                <h5>Votre mot :</h5>
+                                <p class="card-text mb-3">{{ review.ticket.description }}</p>
+                                {% else %}
+                                <h5>Mot de {{ review.ticket.user|title }} :</h5>
+                                <p class="card-text mb-3">{{ review.ticket.description }}</p>
+                                {% endif %}
+                                {% endif %}
+                            </div>
+                            {% if review.ticket.image %}
+                            <div class="d-flex justify-content-center">
+                                <img class="img-fluid pt-2 pb-3" src="{{ review.ticket.image.url }}"
+                                    alt="illustration for {{ review.ticket.title }}">
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

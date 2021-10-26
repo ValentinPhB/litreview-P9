@@ -18,7 +18,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth.views import (
     LoginView, LogoutView)
-from django.urls import path, re_path
+from django.urls import path
 
 import authentication.views
 import blog.views
@@ -32,7 +32,6 @@ urlpatterns = [
     path('signup/', authentication.views.signup_page, name='signup'),
     path('home/', blog.views.home, name='home'),
     path('ticket/', blog.views.ticket, name='ticket'),
-    path('answer/', blog.views.answer, name='answer'),
     path('review/', blog.views.review, name='review'),
     path('logout/', LogoutView.as_view(), name='logout'),
 ]

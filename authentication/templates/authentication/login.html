@@ -11,36 +11,37 @@
                     <div class="container text-center">
                         <form role="form" action="" method="post" novalidate>
                             {% csrf_token %}
-                            <div class="row justify-content-center"">
+                            <div class="row justify-content-center">
                                 <div class=" col-12 col-sm-1& col-md-9 col-lg-7">
-                                <input class="form-control mt-5" id="{{ form.username.id_for_label }}"
-                                    name="{{ form.username.html_name }}" type="text" placeholder="Nom d'utilisateur" />
-                                {% if form.errors %}
-                                {% for error in form.username.errors %}
-                                <div class="list-group-item-danger text-black">
-                                    <strong>{{ error|escape }}</strong>
-                                </div>
-                                {% endfor %}
-                                {% endif %}
-                                <input class="form-control mt-5" id="{{ form.password.id_for_label }}"
-                                    name="{{ form.password.html_name }}" type="password" placeholder="Mot de passe" />
-                                {% if form.errors %}
-                                {% for error in form.password.errors %}
-                                <div class="list-group-item-danger text-black">
-                                    <strong>{{ error|escape }}</strong>
-                                </div>
-                                {% endfor %}
-                                {% endif %}
-                                <div class="row mt-4 py-2 px-1">
-                                    <button type="submit" class="btn btn-success my-4"><strong>Se
-                                            connecter</strong></button>
+                                    <input class="form-control mt-5" id="{{ form.username.id_for_label }}"
+                                        name="{{ form.username.html_name }}" type="text" placeholder="Nom d'utilisateur" />
+                                    {% if form.errors %}
+                                    {% for error in form.username.errors %}
+                                    <div class="list-group-item-danger text-black">
+                                        <strong>{{ error|escape }}</strong>
+                                    </div>
+                                    {% endfor %}
+                                    {% endif %}
+                                    <input class="form-control mt-5" id="{{ form.password.id_for_label }}"
+                                        name="{{ form.password.html_name }}" type="password" placeholder="Mot de passe" />
+                                    {% if form.errors %}
+                                    {% for error in form.password.errors %}
+                                    <div class="list-group-item-danger text-black">
+                                        <strong>{{ error|escape }}</strong>
+                                    </div>
+                                    {% endfor %}
+                                    {% endif %}
+                                    <div class="row mt-4 py-2 px-1">
+                                        <button type="submit" class="btn btn-success my-4"><strong>Se
+                                                connecter</strong></button>
+                                    </div>
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
-            <div class="text-center">
+            <div class="text-center mt-5">
                 <p>Pas encore membre ?</p>
                 <a class="mb-5 ml-1 nav-link" id="signup" href="{% url 'signup' %}">Inscrivez-vous
                     maintenant !</a>

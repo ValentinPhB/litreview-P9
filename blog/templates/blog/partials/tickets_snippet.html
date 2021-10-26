@@ -3,23 +3,23 @@
     <div class="container pt-4">
         <div class="row justify-content-center"">
             <div class=" col-12 col-sm-10">
-                <div class="card mx-auto shadow">
+                <div class="card mx-auto shadow mb-1">
                     {% if ticket.user == request.user %}
                     <h5 class="card-header"><strong>Vous avez demandé une critique</strong></h5>
                     {% else %}
-                    <h5 class="card-header bg-primary"><strong>{{ ticket.user|title }} a demandé une critique</strong></h5>
+                    <h5 class="card-header bg-info text-white"><strong>{{ ticket.user|title }} a demandé une critique</strong></h5>
                     {% endif %}
+                    <h6 class="card-header text-muted">{{ ticket.time_created }}</h6>
                     <div class="card-body">
-                        <h5 class="card-title text-center">{{ ticket.title|title }}</h5>
-                        <h6 class="card-subtitle mb-4 text-muted text-center">{{ ticket.time_created }}</h6>
+                        <h4 class="card-title text-center">{{ ticket.title|title }}</h4>
                         <div class="row">
                             <div class="col text-center">
                                 {% if ticket.description %}
                                 {% if ticket.user == request.user %}
-                                <h5>Votre mot :</h5>
+                                <h6>Votre mot :</h6>
                                 <p class="card-text mb-3">{{ ticket.description }}</p>
                                 {% else %}
-                                <h5>Mot de {{ ticket.user|title }} :</h5>
+                                <h6>Mot de {{ ticket.user|title }} :</h6>
                                 <p class="card-text mb-3">{{ ticket.description }}</p>
                                 {% endif %}
                                 {% endif %}
@@ -31,7 +31,7 @@
                             </div>
                             {% endif %}
                         </div>
-                        {% if ticket.user != request.user %}
+                        {% if ticket.user != request.user and not ticket.review%}
                         <input type="hidden" name="specific-ticket" value="{{ ticket.id }}">
                         <div class="row justify-content-center pt-2 px-1">
                             <div class="col-12 col-sm-11 col-md-9 col-lg-6">
