@@ -1,3 +1,5 @@
+from itertools import chain
+from django.db.models import CharField, Value
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -7,18 +9,39 @@ from django.contrib import messages
 from . import forms
 from . import models
 
+
 @login_required
 def home(request):
-    tickets = models.Ticket.objects.all().order_by('-id')
+    form = forms.AnswerForm()
+
+    tickets = models.Ticket.objects.all()
+    tickets = tickets.annotate(content_type=Value('TICKET', CharField()))
+
     reviews = models.Review.objects.all()
-    context = {'tickets': tickets,
-                'reviews' : reviews}
+    reviews = reviews.annotate(content_type=Value('REVIEW', CharField()))
+    posts = sorted(
+        chain(reviews, tickets), 
+        key=lambda post: post.time_created, 
+        reverse=True)
+    context = {'posts': posts}
     if request.method == 'POST':
+        if 'specific-ticket' in request.POST:
             id_ticket = request.POST.get('specific-ticket')
-            answer(request, id_ticket)
             ticket = models.Ticket.objects.get(pk=id_ticket)
-            return render(request, 'blog/answer.html', context={'ticket': ticket})
+            return render(request, 'blog/answer.html', context={'ticket': ticket, 'form': form})
+        if 'answer' in request.POST:
+            form = forms.AnswerForm(request.POST)
+            id_ticket = request.POST.get('ticket_to_pass')
+            ticket = models.Ticket.objects.get(pk=id_ticket)
+            if form.is_valid():
+                answer = form.save(commit=False)
+                answer.ticket = ticket
+                answer.user = request.user
+                answer.save()
+                messages.add_message(request, messages.SUCCESS, 'Votre critique a bien été publiée')
+                return redirect(settings.LOGIN_REDIRECT_URL)
     return render(request, 'blog/home.html', context=context)
+
 
 @login_required
 def ticket(request):
@@ -32,25 +55,31 @@ def ticket(request):
             messages.add_message(request, messages.SUCCESS,
                                  'Votre demande a bien été publiée')
             return redirect(settings.LOGIN_REDIRECT_URL)
-    return render(request, 'blog/ticket.html', context={'form' : form})
+    return render(request, 'blog/ticket.html', context={'form': form})
+
 
 @login_required
 def review(request):
     context = {}
     return render(request, 'blog/review.html', context=context)
 
+
 @login_required
-def answer(request, id_ticket):
-    form = forms.AnswerForm()
+def review(request):
+    ticket_form = forms.TicketForm(prefix="ticket_form")
+    answer_form = forms.AnswerForm(prefix="answer_form")
     if request.method == 'POST':
-        form = forms.AnswerForm(request.POST)
-        if form.is_valid():
-            review = form.save(commit=False)
-            print('>>>>>>>>>>>>>>>>>>>>>>>> 6')
-            print(review.ticket)
-            print(review.rating)
-            print(review.user)
-            print(review.headline)
-            print(review.body)
-            print(review.time_created)
-    return render(request, 'blog/answer.html', context={'form' : form, 'ticket' : id_ticket})
+        ticket_form = forms.TicketForm(request.POST, request.FILES, prefix="ticket_form")
+        answer_form = forms.AnswerForm(request.POST, prefix="answer_form")
+        if ticket_form.is_valid() and answer_form.is_valid():
+            ticket = ticket_form.save(commit=False)
+            ticket.user = request.user
+            ticket.save()
+            answer = answer_form.save(commit=False)
+            answer.ticket = ticket
+            answer.user = request.user
+            answer.save()
+            messages.add_message(request, messages.SUCCESS,
+                                 'Votre critique a bien été publiée')
+            return redirect(settings.LOGIN_REDIRECT_URL)
+    return render(request, 'blog/review.html', context={'ticket_form': ticket_form, 'answer_form': answer_form})
