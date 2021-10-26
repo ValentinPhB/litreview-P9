@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
-from django.forms import ValidationError, CharField, PasswordInput
-from django.utils.translation import gettext, gettext_lazy as _
+from django.forms import ValidationError
+from django.utils.translation import gettext_lazy as _
 
 
 class SignupForm(UserCreationForm):

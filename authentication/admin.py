@@ -1,19 +1,27 @@
 from django.contrib import admin
-from blog.models import Ticket
+from blog.models import Ticket, Review
 from .models import User
-from django.utils.translation import gettext, gettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import Group
+
 
 class TicketInLine(admin.TabularInline):
     model = Ticket
     fieldsets = [
-        (None, { 'fields': ['title', 'description', 'image']})]
+        (None, {'fields': ['title', 'description', 'image']})]
+    extra = 0
+
+
+class ReviewInLine(admin.TabularInline):
+    model = Review
+    fieldsets = [
+        (None, {'fields': ['headline', 'body', 'ticket']})]
     extra = 0
 
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    inlines = [TicketInLine, ]
+    inlines = [ReviewInLine, TicketInLine, ]
 
 
 class UserAdmin(UserAdmin):
