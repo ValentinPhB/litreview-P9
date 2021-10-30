@@ -1,6 +1,6 @@
 <div class="container pt-4">
     <div class="row justify-content-center"">
-        <div class=" col-12 col-sm-10">
+        <div class=" col-12">
             <div class="card mx-auto shadow pb-4 mb-1">
                 {% if review.user  == request.user %}
                 <h5 class="card-header"><strong>Vous avez publié un critique</strong></h5>
@@ -44,36 +44,66 @@
                             {% endif %}
                         </div>
                     </div>
-                </div>
-                <div class="card mx-auto shadow">
-                    {% if review.ticket.user == request.user %}
-                    <h5 class="card-header"><strong>Votre ticket</strong></h5>
-                    <h6 class="card-header text-muted pb-2">{{ review.time_created }}</h6>
-                    {% else %}
-                    <h5 class="card-header"><strong>Critique demandée par {{ review.ticket.user|title }}</strong>
-                    </h5>
-                    <h6 class="card-header text-muted pb-2">{{ review.time_created }}</h6>
+                    {% if '/post/' in request.path %}
+                    <div class="row justify-content-center">
+                        <div class="col-12 col-sm-11 col-md-9 col-lg-3">
+                            <form id="form_adjust_review" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="adjust_review" value="{{ review.id }}">
+                                <div class="col">
+                                    <div class="row px-1">
+                                        <button form="form_adjust_review" type="submit" class="btn btn-warning text-black my-3 shadow"><strong>Modifier la
+                                                CRITIQUE</strong></button>
+                                    </div>
+                                </div>
+                            </form>
+                            </div>
+                            <div class="col-12 col-sm-11 col-md-9 col-lg-3">
+                            <form id="form_delete_review" method="post">
+                                {% csrf_token %}
+                                <div class="col">
+                                    <input type="hidden" name="delete_review" value="{{ review.id }}">
+                                    <div class="row px-1">
+                                        <button form="form_delete_review" type="submit" class="btn btn-danger text-black my-3 shadow"><strong>Supprimer la
+                                                CRITIQUE</strong></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                     {% endif %}
-                    <div class="card-body">
-                        <h5 class="card-title text-center">{{ review.ticket.title|title }}</h5>
-                        <div class="row">
-                            <div class="col text-center">
-                                {% if review.ticket.description %}
-                                {% if review.ticket.user == request.user %}
-                                <h5>Votre mot :</h5>
-                                <p class="card-text mb-3">{{ review.ticket.description }}</p>
-                                {% else %}
-                                <h5>Mot de {{ review.ticket.user|title }} :</h5>
-                                <p class="card-text mb-3">{{ review.ticket.description }}</p>
-                                {% endif %}
+                </div>
+                <div class=" col-11 mx-auto">
+                    <div class="card mx-auto shadow">
+                        {% if review.ticket.user == request.user %}
+                        <h5 class="card-header"><strong>Votre ticket</strong></h5>
+                        <h6 class="card-header text-muted pb-2">{{ review.time_created }}</h6>
+                        {% else %}
+                        <h5 class="card-header"><strong>Critique demandée par {{ review.ticket.user|title }}</strong>
+                        </h5>
+                        <h6 class="card-header text-muted pb-2">{{ review.time_created }}</h6>
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title text-center">{{ review.ticket.title|title }}</h5>
+                            <div class="row">
+                                <div class="col text-center">
+                                    {% if review.ticket.description %}
+                                    {% if review.ticket.user == request.user %}
+                                    <h5>Votre mot :</h5>
+                                    <p class="card-text mb-3">{{ review.ticket.description }}</p>
+                                    {% else %}
+                                    <h5>Mot de {{ review.ticket.user|title }} :</h5>
+                                    <p class="card-text mb-3">{{ review.ticket.description }}</p>
+                                    {% endif %}
+                                    {% endif %}
+                                </div>
+                                {% if review.ticket.image %}
+                                <div class="d-flex justify-content-center">
+                                    <img class="img-fluid pt-2 pb-3" src="{{ review.ticket.image.url }}"
+                                        alt="illustration for {{ review.ticket.title }}">
+                                </div>
                                 {% endif %}
                             </div>
-                            {% if review.ticket.image %}
-                            <div class="d-flex justify-content-center">
-                                <img class="img-fluid pt-2 pb-3" src="{{ review.ticket.image.url }}"
-                                    alt="illustration for {{ review.ticket.title }}">
-                            </div>
-                            {% endif %}
                         </div>
                     </div>
                 </div>

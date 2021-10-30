@@ -33,6 +33,7 @@ urlpatterns = [
     path('home/', blog.views.home, name='home'),
     path('ticket/', blog.views.ticket, name='ticket'),
     path('review/', blog.views.review, name='review'),
+    path('post/', blog.views.post, name='post'),
     path('logout/', LogoutView.as_view(), name='logout'),
 ]
 

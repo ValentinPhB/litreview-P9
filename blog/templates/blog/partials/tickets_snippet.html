@@ -1,49 +1,92 @@
-<form method="post" novalidate>
-    {% csrf_token %}
-    <div class="container pt-4">
-        <div class="row justify-content-center"">
-            <div class=" col-12 col-sm-10">
-                <div class="card mx-auto shadow mb-1">
-                    {% if ticket.user == request.user %}
-                    <h5 class="card-header"><strong>Vous avez demandé une critique</strong></h5>
-                    {% else %}
-                    <h5 class="card-header bg-info text-white"><strong>{{ ticket.user|title }} a demandé une critique</strong></h5>
+
+<div class="container pt-4">
+    <div class="row justify-content-center"">
+        <div class=" col-12">
+            <div class="card mx-auto shadow mb-1">
+                {% if ticket.user == request.user %}
+                <h5 class="card-header"><strong>Vous avez demandé une critique</strong></h5>
+                    {% if '/post/' in request.path and ticket.review %}
+                    <h5 class="card-header text-center"><strong class="text-danger text-left">ATTENTION : CRITIQUE ASSOCIÉE PUBLIÉE</strong></h5>
                     {% endif %}
-                    <h6 class="card-header text-muted">{{ ticket.time_created }}</h6>
-                    <div class="card-body">
-                        <h4 class="card-title text-center">{{ ticket.title|title }}</h4>
-                        <div class="row">
-                            <div class="col text-center">
-                                {% if ticket.description %}
-                                {% if ticket.user == request.user %}
-                                <h6>Votre mot :</h6>
-                                <p class="card-text mb-3">{{ ticket.description }}</p>
-                                {% else %}
-                                <h6>Mot de {{ ticket.user|title }} :</h6>
-                                <p class="card-text mb-3">{{ ticket.description }}</p>
-                                {% endif %}
-                                {% endif %}
-                            </div>
-                            {% if ticket.image %}
-                            <div class="d-flex justify-content-center">
-                                <img class="img-fluid pt-2 pb-3" src="{{ ticket.image.url }}"
-                                    alt="illustration for {{ ticket.title }}">
-                            </div>
+                    {% if ticket.review %}
+                    <h5 class="card-header"><strong class="text-info text-left">CRITIQUE ASSOCIÉE PUBLIÉE</strong>
+                    </h5>
+                    {% endif %}
+                {% else %}
+                <h5 class="card-header bg-info text-white"><strong>{{ ticket.user|title }} a demandé une critique</strong></h5>
+                {% if ticket.review %}
+                <h5 class="card-header"><strong class="text-info text-left">CRITIQUE ASSOCIÉE PUBLIÉE</strong>
+                </h5>
+                {% endif %}
+                {% endif %}
+                <h6 class="card-header text-muted">{{ ticket.time_created }}</h6>
+                <div class="card-body">
+                    <h4 class="card-title text-center">{{ ticket.title|title }}</h4>
+                    <div class="row">
+                        <div class="col text-center">
+                            {% if ticket.description %}
+                            {% if ticket.user == request.user %}
+                            <h6>Votre mot :</h6>
+                            <p class="card-text mb-3">{{ ticket.description }}</p>
+                            {% else %}
+                            <h6>Mot de {{ ticket.user|title }} :</h6>
+                            <p class="card-text mb-3">{{ ticket.description }}</p>
+                            {% endif %}
                             {% endif %}
                         </div>
-                        {% if ticket.user != request.user and not ticket.review%}
+                        {% if ticket.image %}
+                        <div class="d-flex justify-content-center">
+                            <img class="img-fluid pt-2 pb-3" src="{{ ticket.image.url }}"
+                                alt="illustration for {{ ticket.title }}">
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% if ticket.user != request.user and not ticket.review %}
+                    <form id="form_to_answer" method="post">
+                        {% csrf_token %}
                         <input type="hidden" name="specific-ticket" value="{{ ticket.id }}">
                         <div class="row justify-content-center pt-2 px-1">
                             <div class="col-12 col-sm-11 col-md-9 col-lg-6">
                                 <div class="row px-1">
-                                    <button type="submit" class="btn btn-success my-3"><strong>Soumettre une critique à {{ ticket.user|title }}</strong></button>
+                                    <button form="form_to_answer" type="submit" class="btn btn-success my-3 shadow"><strong>Soumettre une critique à {{ ticket.user|title }}</strong></button>
                                 </div>
                             </div>
                         </div>
+                    </form>
+                    {% endif %}
+                    {% if '/post/' in request.path %}
+                    <div class="row justify-content-center text-center">
+                        <div class="col-12 col-sm-11 col-md-9 col-lg-3 ">
+                            <form id="form_adjust_ticket" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="adjust_ticket" value="{{ ticket.id }}">
+                                <div class="col">
+                                    <div class="row px-1">
+                                        <button form="form_adjust_ticket" type="submit" class="btn btn-warning text-black my-3 shadow"><strong>Modifier la DEMANDE</strong></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-12 col-sm-11 col-md-9 col-lg-3 ">
+                            <form id="form_delete_ticket" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="delete_ticket" value="{{ ticket.id }}">
+                                <div class="col">
+                                    <div class="row px-1">
+                                        <button form="form_delete_ticket" type="submit" class="btn btn-danger text-black my-3 shadow"><strong>Supprimer la DEMANDE</strong></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        {% if ticket.review %}
+                        <h5 class="text-danger pt-3"><strong>Toute modification ou suppression de la demande entrainera la suppression de la
+                                critique associée.</strong></h5>
+                        {% else %}
                         {% endif %}
                     </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
-</form>
+</div>

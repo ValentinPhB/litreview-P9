@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+{% for message in messages %}
+<div class="row text-center pt-4">
+    <div class="col list-group-item-success text-black pt-2" name="{{ message.tags }}">
+        <h5>{{ message }}</h5>
+    </div>
+</div>
+{% endfor %}
+<div class="container py-4">
+    <div class="row text-center">
+        <div class="card mx auto pb-5 shadow">
+            {% if posts %}
+                <div class="container">
+                    <div class="row px-1 pt-3 text-center">
+                        <h1>Vos participations :</h1>
+                    </div>
+                </div>
+                    {% for post in posts %}
+                    {% if post.content_type == 'TICKET' %}
+                    {% include './partials/tickets_snippet.html' with ticket=post %}
+                    {% elif post.content_type == 'REVIEW' %}
+                    {% include './partials/review_snippet.html' with review=post %}
+                    {% endif %}
+                    {% endfor %}
+                {% else %}
+                <div class="container">
+                    <div class="row px-1 pt-3 text-center">
+                        <h1 class="py-5">Vos futures participations apparaitront ici</h1>
+                    </div>
+                    <h5 class="py-5">Créez des critiques, répondez au demandes des autres utilisateurs ou sollicitez des avis dans
+                        l'onglet "Flux"</h5>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock content %}
