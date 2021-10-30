@@ -19,17 +19,21 @@ def home(request):
 
     reviews = models.Review.objects.all()
     reviews = reviews.annotate(content_type=Value('REVIEW', CharField()))
+
     posts = sorted(
         chain(reviews, tickets), 
         key=lambda post: post.time_created, 
         reverse=True)
     context = {'posts': posts}
     if request.method == 'POST':
+        print('>>>>>>>>>>>>>>>>>>>>>>>>>>')
         if 'specific-ticket' in request.POST:
+            print('herereererereererr')
             id_ticket = request.POST.get('specific-ticket')
             ticket = models.Ticket.objects.get(pk=id_ticket)
             return render(request, 'blog/answer.html', context={'ticket': ticket, 'form': form})
-        if 'answer' in request.POST:
+
+        elif 'answer' in request.POST:
             form = forms.AnswerForm(request.POST)
             id_ticket = request.POST.get('ticket_to_pass')
             ticket = models.Ticket.objects.get(pk=id_ticket)
@@ -59,9 +63,81 @@ def ticket(request):
 
 
 @login_required
-def review(request):
-    context = {}
-    return render(request, 'blog/review.html', context=context)
+def post(request):
+    adjust_ticket_form = forms.TicketForm(prefix="adjust_ticket_form")
+    adjust_review_form = forms.AnswerForm(prefix="adjust_review_form")
+    tickets = models.Ticket.objects.filter(user=request.user)
+    tickets = tickets.annotate(content_type=Value('TICKET', CharField()))
+
+    reviews = models.Review.objects.filter(user=request.user)
+    reviews = reviews.annotate(content_type=Value('REVIEW', CharField()))
+
+    posts = sorted(
+        chain(reviews, tickets), 
+        key=lambda post: post.time_created, 
+        reverse=True)
+    context = {'posts': posts}
+    if request.method == 'POST':
+        if 'adjust_ticket' in request.POST:
+            id_ticket = request.POST.get('adjust_ticket')
+            ticket = models.Ticket.objects.get(pk=id_ticket)
+            return render(request, 'blog/adjust_ticket.html', context={'ticket': ticket, 'adjust_ticket_form': adjust_ticket_form})
+        elif 'adjust_review' in request.POST:
+            id_review = request.POST.get('adjust_review')
+            review = models.Review.objects.get(pk=id_review)
+            return render(request, 'blog/adjust_review.html', context={'review': review, 'adjust_review_form': adjust_review_form})
+
+        elif 'delete_ticket' in request.POST:
+            id_ticket = request.POST.get('delete_ticket')
+            ticket = models.Ticket.objects.get(pk=id_ticket)
+            if hasattr(ticket, 'review') :
+                review = models.Review.objects.get(ticket=ticket)
+                review.delete()
+                ticket.delete()
+                messages.add_message(request, messages.SUCCESS, 'Votre demande et sa critique associée ont été supprimées.')
+            else:
+                ticket.delete()
+                messages.add_message(request, messages.SUCCESS, 'Votre demande a été supprimée.')
+            return redirect('post')
+        elif 'delete_review' in request.POST:
+            id_review = request.POST.get('delete_review')
+            review = models.Review.objects.get(pk=id_review)
+            review.delete()
+            messages.add_message(request, messages.SUCCESS, 'Votre Critique a été supprimée.')
+            return redirect('post')
+
+        elif 'adjust_review_validate' in request.POST:
+            print('innnnnnnnnnnnnnnnnnnnnnnnnnnnn')
+            adjust_review_form = forms.AnswerForm(request.POST, prefix="adjust_review_form")
+            print(adjust_review_form)
+            if adjust_review_form.is_valid():
+                print('VALIDDDDDDDDDDDDDDDDDDDDD')
+                id_review = request.POST.get('review_to_pass')
+                review = models.Review.objects.get(pk=id_review)
+                review.save(commit=False)
+                print(review.headline)
+                print(review.body)
+                print(review.rating)
+                messages.add_message(request, messages.SUCCESS, 'Votre critique a bien été modifiée.')
+                redirect('post')
+
+        elif 'adjust_ticket_validate' in request.POST:
+            adjust_ticket_form = forms.TicketForm(request.POST, request.FILES)
+            if adjust_ticket_form.is_valid():
+                id_ticket = request.POST.get('ticket_to_pass')
+                ticket = models.Ticket.objects.get(pk=id_ticket)
+                ticket.title = request.POST.get('')
+                ticket.description = request.POST.get('')
+                ticket.image = request.FILES.get('')
+                if hasattr(ticket, 'review') :
+                    review = models.Review.objects.get(ticket=ticket)
+                    review.delete()
+                    messages.add_message(request, messages.SUCCESS, 'Votre demande a bien été modifiée par conséquent, sa critique associée a été supprimée.')
+                else:
+                    messages.add_message(request, messages.SUCCESS, 'Votre demande a bien été modifiée.')
+
+
+    return render(request, 'blog/post.html', context=context)
 
 
 @login_required

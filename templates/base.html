@@ -19,10 +19,10 @@
         class="navbar sticky-top bg-gradient bg-secondary collapse navbar-collapse justify-content-center show">
         <ul class="nav justify-content-center">
             <li class="nav-item">
-                <a class="nav-link active" href="#{% url 'home' %}"><strong>Flux</strong></a>
+                <a class="nav-link active" href="{% url 'home' %}"><strong>Flux</strong></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#"><strong>Post</strong></a>
+                <a class="nav-link" href="{% url 'post' %}"><strong>Post</strong></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#"><strong>Abonnements</strong></a>
@@ -33,7 +33,7 @@
         </ul>
     </div>
     {% else %}
-    <div class="bg-gradient bg-secondary collapse navbar-collapse" id="navbarHeader">
+    <div class="bg-gradient bg-secondary collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="container">
             <div class="row">
                 <div class="col py-4">
@@ -73,7 +73,7 @@
     <footer class="page-footer">
         <div class="footer-copyright text-center bg-light py-4">
             {% if user.is_authenticated %}
-            <p>Vous êtes connecté en tant que <strong>"{{ request.user|title }}"</strong>.<a class="nav-link" id="logout_2"
+            <p>Vous êtes connecté en tant que <strong>"{{ request.user|title }}"</strong><a class="nav-link" id="logout_2"
                     href="{% url 'logout' %}"><strong>Déconnexion</strong></a></p>
             {% endif %}
             <p class="text-muted mb-0 py-1">© 2021 LitReview</p>
