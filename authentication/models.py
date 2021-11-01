@@ -50,6 +50,7 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser):
     """
+    Update User models from Django
     """
     username = models.CharField(verbose_name="Nom d'utilisateur", max_length=150, unique=True)
     is_active = models.BooleanField(default=True)
@@ -70,19 +71,13 @@ class User(AbstractBaseUser):
         return self.username
 
     def get_full_name(self):
-        # The user is identified by their email address
         return self.username
 
     def get_short_name(self):
-        # The user is identified by their email address
         return self.username
 
     def has_perm(self, perm, obj=None):
-        """Does the user have a specific permission?"""
-        # Simplest possible answer: Yes, always
         return True
 
     def has_module_perms(self, app_label):
-        """Does the user have permissions to view the app `app_label`?"""
-        # Simplest possible answer: Yes, always
         return True

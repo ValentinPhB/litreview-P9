@@ -17,7 +17,7 @@ class Ticket(models.Model):
 
     def __str__(self):
         return self.title
-        
+    
     IMAGE_MAX_SIZE = (500, 500)
 
     def resize_image(self):

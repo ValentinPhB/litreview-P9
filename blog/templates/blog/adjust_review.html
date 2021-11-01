@@ -17,9 +17,9 @@
                                     <input class="form-control" id="{{ adjust_review_form.rating.id_for_label }}"
                                         name="{{ adjust_review_form.rating.html_name }}" type="number"
                                          min="0" max="5"
-                                        value="{{ review.rating }}"/>
-                                    {% if form.errors %}
-                                    {% for error in form.rating.errors %}
+                                        value="{{ review.rating }}" placeholder="Votre en-tête..."/>
+                                    {% if adjust_review_form.errors %}
+                                    {% for error in adjust_review_form.rating.errors %}
                                     <div class="list-group-item-danger text-black">
                                         <strong>{{ error|escape }}</strong>
                                     </div>
@@ -27,25 +27,38 @@
                                     {% endif %}
                                 </div>
                             </div>
-                            <label class="mt-4" for="rating"><strong>Votre précédent en-tête :</strong></label>
+                            <label class="mt-4" for="headline"><strong>Votre précédent en-tête :</strong></label>
                             <input class="form-control" id="{{ adjust_review_form.headline.id_for_label }}"
-                                name="{{ adjust_review_form.headline.html_name }}" type="text" placeholder="Votre en-tête..." value="{{ review.headline }}"/>
-                            {% if form.errors %}
-                            {% for error in form.headline.errors %}
+                                name="{{ adjust_review_form.headline.html_name }}" type="text" placeholder="Votre note..." value="{{ review.headline }}"/>
+                            {% if adjust_review_form.errors %}
+                            {% for error in adjust_review_form.headline.errors %}
                             <div class="list-group-item-danger text-black">
                                 <strong>{{ error|escape }}</strong>
                             </div>
                             {% endfor %}
                             {% endif %}
-                            <label class="mt-4" for="rating"><strong>Votre précédent avis :</strong></label>
+                            {% if review.body %}
+                            <label class="mt-4" for="body"><strong>Votre précédent avis :</strong></label>
                             <textarea class="form-control text-black mb-3" id="{{ adjust_review_form.body.id_for_label }}" rows="4"
                                 name="{{ adjust_review_form.body.html_name }}" placeholder="Votre avis...">{{ review.body }}</textarea>
-                            {% if form.errors %}
-                            {% for error in form.body.errors %}
+                            {% if adjust_review_form.errors %}
+                            {% for error in adjust_review_form.body.errors %}
                             <div class="list-group-item-danger text-black">
                                 <strong>{{ error|escape }}</strong>
                             </div>
                             {% endfor %}
+                            {% endif %}
+                            {% else %}
+                            <label class="mt-4" for="body"><strong>Ajouter un avis (facultatif):</strong></label>
+                            <textarea class="form-control text-black mb-3" id="{{ adjust_review_form.body.id_for_label }}" rows="4"
+                                name="{{ adjust_review_form.body.html_name }}" placeholder="Votre avis...">{{ review.body }}</textarea>
+                            {% if adjust_review_form.errors %}
+                            {% for error in adjust_review_form.body.errors %}
+                            <div class="list-group-item-danger text-black">
+                                <strong>{{ error|escape }}</strong>
+                            </div>
+                            {% endfor %}
+                            {% endif %}
                             {% endif %}
                             <div class="col-11 mx-auto pt-4">
                                 <div class="card mx-auto shadow">
