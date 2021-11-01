@@ -10,6 +10,14 @@ class SignupForm(UserCreationForm):
         fields = ("username",)
 
     def clean_password2(self):
+        """Cheking if passwords are equal
+
+        Raises:
+            ValidationError: Error for user.
+
+        Returns:
+            [str]: password_2
+        """
         password_1 = self.cleaned_data.get('password1')
         password_2 = self.cleaned_data.get('password2')
         if password_1 and password_2 and password_1 != password_2:

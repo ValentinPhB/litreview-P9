@@ -4,14 +4,14 @@ from .models import User
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import Group
 
-
+# Display Ticket instances
 class TicketInLine(admin.TabularInline):
     model = Ticket
     fieldsets = [
         (None, {'fields': ['title', 'description', 'image']})]
     extra = 0
 
-
+# Display Review instances 
 class ReviewInLine(admin.TabularInline):
     model = Review
     fieldsets = [
@@ -24,6 +24,7 @@ class UserAdmin(admin.ModelAdmin):
     inlines = [ReviewInLine, TicketInLine, ]
 
 
+# Modify fields
 class UserAdmin(UserAdmin):
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
@@ -38,5 +39,5 @@ class UserAdmin(UserAdmin):
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 
-# don't show groups
+# Don't show groups
 admin.site.unregister(Group)
