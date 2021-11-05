@@ -35,6 +35,7 @@ urlpatterns = [
     path('review/', blog.views.review, name='review'),
     path('post/', blog.views.post, name='post'),
     path('logout/', LogoutView.as_view(), name='logout'),
+    path('follow/', blog.views.follow, name="follow")
 ]
 
 if settings.DEBUG:

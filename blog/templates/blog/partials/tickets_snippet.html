@@ -1,6 +1,6 @@
 
 <div class="container pt-4">
-    <div class="row justify-content-center"">
+    <div class="row justify-content-center">
         <div class=" col-12">
             <div class="card mx-auto shadow mb-1">
                 {% if ticket.user == request.user %}
@@ -13,7 +13,7 @@
                     </h5>
                     {% endif %}
                 {% else %}
-                <h5 class="card-header bg-info text-white"><strong>{{ ticket.user|title }} a demandé une critique</strong></h5>
+                <h5 class="card-header bg-info text-white"><strong>{{ ticket.user }} a demandé une critique</strong></h5>
                 {% if ticket.review %}
                 <h5 class="card-header"><strong class="text-info text-left">CRITIQUE ASSOCIÉE PUBLIÉE</strong>
                 </h5>
@@ -29,7 +29,7 @@
                             <h6>Votre mot :</h6>
                             <p class="card-text mb-3">{{ ticket.description }}</p>
                             {% else %}
-                            <h6>Mot de {{ ticket.user|title }} :</h6>
+                            <h6>Mot de {{ ticket.user }} :</h6>
                             <p class="card-text mb-3">{{ ticket.description }}</p>
                             {% endif %}
                             {% endif %}
@@ -48,7 +48,7 @@
                         <div class="row justify-content-center pt-2 px-1">
                             <div class="col-12 col-sm-11 col-md-9 col-lg-6">
                                 <div class="row px-1">
-                                    <button form="form_to_answer" type="submit" class="btn btn-success my-3 shadow"><strong>Soumettre une critique à {{ ticket.user|title }}</strong></button>
+                                    <button form="form_to_answer" type="submit" class="btn btn-success my-3 shadow"><strong>Soumettre une critique à {{ ticket.user }}</strong></button>
                                 </div>
                             </div>
                         </div>

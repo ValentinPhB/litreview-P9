@@ -5,12 +5,12 @@
         <div class="row justify-content-center">
             <div class=" col-12 col-sm-10">
                 <div class="card mx-auto shadow">
-                    <h5 class="card-header bg-warning"><strong>Répondre à {{ ticket.user|title }} :</strong></h5>
+                    <h5 class="card-header bg-warning"><strong>Répondre à {{ ticket.user }} :</strong></h5>
                     <div class="card-body">
                         <h5 class="card-title text-center">{{ ticket.title|title }}</h5>
                         <h6 class="card-subtitle mb-1 text-muted text-center">{{ ticket.time_created }}</h6>
                         {% if ticket.description %}
-                        <h5>Mot de {{ ticket.user|title }} :</h5>
+                        <h5>Mot de {{ ticket.user }} :</h5>
                         <p class="card-text">{{ ticket.description }}</p>
                         {% endif %}
                         {% if ticket.image %}

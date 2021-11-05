@@ -50,12 +50,15 @@ class Review(models.Model):
 
 
 class UserFollows(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             on_delete=models.CASCADE, related_name="following")
-    followed_user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='followed_by')
+    followed_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='Abonnés',  related_name="Abonnés", on_delete=models.CASCADE)
+    follows = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='Abonnements', related_name="Abonnements", on_delete=models.CASCADE)
 
     class Meta:
-        verbose_name = 'Utilisateur suivi'
-        verbose_name_plural = 'Utilisateurs suivis'
-        unique_together = ('user', 'followed_user')
+        unique_together = ('followed_by', 'follows', )
+        verbose_name = "Relation Utilisateur"
+        verbose_name_plural = "Relations Utilisateurs"
+    
+    def __str__(self):
+        return ' %s suit %s ' % (self.followed_by, self.follows)
+
+    
