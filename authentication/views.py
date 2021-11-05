@@ -15,7 +15,7 @@ def signup_page(request):
         form = forms.SignupForm(request.POST)
         if form.is_valid():
             user = form.save()
-            messages.add_message(request, messages.SUCCESS, 'Félicitation %s votre compte a été créé.' % user.username)
+            messages.add_message(request, messages.SUCCESS, 'Félicitations %s votre compte a été créé.' % user.username)
             login(request, user)
             return redirect(settings.LOGIN_REDIRECT_URL)
     return render(request, 'authentication/signup.html', context={'form': form})

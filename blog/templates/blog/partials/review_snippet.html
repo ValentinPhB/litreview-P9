@@ -1,12 +1,12 @@
 <div class="container pt-4">
-    <div class="row justify-content-center"">
+    <div class="row justify-content-center">
         <div class=" col-12">
             <div class="card mx-auto shadow pb-4 mb-1">
-                {% if review.user  == request.user %}
+                {% if review.user == request.user %}
                 <h5 class="card-header"><strong>Vous avez publié un critique</strong></h5>
                 <h6 class="card-header text-muted pb-2">{{ review.time_created }}</h6>
                 {% else %}
-                <h5 class="card-header bg-warning"><strong>Critique publiée par {{ review.user|title }} </strong>
+                <h5 class="card-header bg-warning"><strong>Critique publiée par {{ review.user }} </strong>
                 </h5>
                 <h6 class="card-header text-muted pb-2">{{ review.time_created }}</h6>
                 {% endif %}
@@ -14,27 +14,33 @@
                     <h4 class="card-title">{{ review.headline|title }}</h4>
                     {% if review.rating == 0 %}
                     <div class="col mb-2">
-                        <img name="rating" alt="rating" src="../../../../static/image/assets/Star_rating_0_of_5.png" height="30">
+                        <img name="rating" alt="rating" src="../../../../static/image/assets/Star_rating_0_of_5.png"
+                            height="30">
                     </div>
                     {% elif review.rating == 1 %}
                     <div class="col mb-2">
-                        <img name="rating" alt="rating" src="../../../../static/image/assets/Star_rating_1_of_5.png" height="30">
+                        <img name="rating" alt="rating" src="../../../../static/image/assets/Star_rating_1_of_5.png"
+                            height="30">
                     </div>
                     {% elif review.rating == 2 %}
                     <div class="col mb-2">
-                        <img name="rating" alt="rating" src="../../../../static/image/assets/Star_rating_2_of_5.png" height="30">
+                        <img name="rating" alt="rating" src="../../../../static/image/assets/Star_rating_2_of_5.png"
+                            height="30">
                     </div>
                     {% elif review.rating == 3 %}
                     <div class="col mb-2">
-                        <img name="rating" alt="rating" src="../../../../static/image/assets/Star_rating_3_of_5.png" height="30">
+                        <img name="rating" alt="rating" src="../../../../static/image/assets/Star_rating_3_of_5.png"
+                            height="30">
                     </div>
                     {% elif review.rating == 4 %}
                     <div class="col mb-2">
-                        <img name="rating" alt="rating" src="../../../../static/image/assets/Star_rating_4_of_5.png" height="30">
+                        <img name="rating" alt="rating" src="../../../../static/image/assets/Star_rating_4_of_5.png"
+                            height="30">
                     </div>
                     {% else %}
                     <div class="col mb-2">
-                        <img name="rating" alt="rating" src="../../../../static/image/assets/Star_rating_5_of_5.png" height="30">
+                        <img name="rating" alt="rating" src="../../../../static/image/assets/Star_rating_5_of_5.png"
+                            height="30">
                     </div>
                     {% endif %}
                     <div class="row">
@@ -52,19 +58,21 @@
                                 <input type="hidden" name="adjust_review" value="{{ review.id }}">
                                 <div class="col">
                                     <div class="row px-1">
-                                        <button form="form_adjust_review" type="submit" class="btn btn-warning text-black my-3 shadow"><strong>Modifier la
+                                        <button form="form_adjust_review" type="submit"
+                                            class="btn btn-warning text-black my-3 shadow"><strong>Modifier la
                                                 CRITIQUE</strong></button>
                                     </div>
                                 </div>
                             </form>
-                            </div>
-                            <div class="col-12 col-sm-11 col-md-9 col-lg-3">
+                        </div>
+                        <div class="col-12 col-sm-11 col-md-9 col-lg-3">
                             <form id="form_delete_review" method="post">
                                 {% csrf_token %}
                                 <div class="col">
                                     <input type="hidden" name="delete_review" value="{{ review.id }}">
                                     <div class="row px-1">
-                                        <button form="form_delete_review" type="submit" class="btn btn-danger text-black my-3 shadow"><strong>Supprimer la
+                                        <button form="form_delete_review" type="submit"
+                                            class="btn btn-danger text-black my-3 shadow"><strong>Supprimer la
                                                 CRITIQUE</strong></button>
                                     </div>
                                 </div>
@@ -79,7 +87,7 @@
                         <h5 class="card-header"><strong>Votre ticket</strong></h5>
                         <h6 class="card-header text-muted pb-2">{{ review.time_created }}</h6>
                         {% else %}
-                        <h5 class="card-header"><strong>Critique demandée par {{ review.ticket.user|title }}</strong>
+                        <h5 class="card-header"><strong>Critique demandée par {{ review.ticket.user }}</strong>
                         </h5>
                         <h6 class="card-header text-muted pb-2">{{ review.time_created }}</h6>
                         {% endif %}
@@ -92,7 +100,7 @@
                                     <h5>Votre mot :</h5>
                                     <p class="card-text mb-3">{{ review.ticket.description }}</p>
                                     {% else %}
-                                    <h5>Mot de {{ review.ticket.user|title }} :</h5>
+                                    <h5>Mot de {{ review.ticket.user }} :</h5>
                                     <p class="card-text mb-3">{{ review.ticket.description }}</p>
                                     {% endif %}
                                     {% endif %}

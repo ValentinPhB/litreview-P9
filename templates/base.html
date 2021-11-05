@@ -25,7 +25,7 @@
                 <a class="nav-link" href="{% url 'post' %}"><strong>Post</strong></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#"><strong>Abonnements</strong></a>
+                <a class="nav-link" href="{% url 'follow' %}"><strong>Abonnements</strong></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="logout" href="{% url 'logout' %}"><strong>Se Déconnecter</strong></a>
@@ -73,7 +73,7 @@
     <footer class="page-footer">
         <div class="footer-copyright text-center bg-light py-4">
             {% if user.is_authenticated %}
-            <p>Vous êtes connecté en tant que <strong>"{{ request.user|title }}"</strong><a class="nav-link" id="logout_2"
+            <p>Vous êtes connecté en tant que <strong>"{{ request.user }}"</strong><a class="nav-link" id="logout_2"
                     href="{% url 'logout' %}"><strong>Déconnexion</strong></a></p>
             {% endif %}
             <p class="text-muted mb-0 py-1">© 2021 LitReview</p>

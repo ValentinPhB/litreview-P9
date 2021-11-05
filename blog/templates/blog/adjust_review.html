@@ -66,7 +66,7 @@
                                     <h5 class="card-header"><strong>Votre ticket</strong></h5>
                                     <h6 class="card-header text-muted pb-2">{{ review.time_created }}</h6>
                                     {% else %}
-                                    <h5 class="card-header"><strong>Critique demandée par {{ review.ticket.user|title }}</strong>
+                                    <h5 class="card-header"><strong>Critique demandée par {{ review.ticket.user }}</strong>
                                     </h5>
                                     <h6 class="card-header text-muted pb-2">{{ review.time_created }}</h6>
                                     {% endif %}
@@ -79,7 +79,7 @@
                                                 <h5>Votre mot :</h5>
                                                 <p class="card-text mb-3">{{ review.ticket.description }}</p>
                                                 {% else %}
-                                                <h5>Mot de {{ review.ticket.user|title }} :</h5>
+                                                <h5>Mot de {{ review.ticket.user }} :</h5>
                                                 <p class="card-text mb-3">{{ review.ticket.description }}</p>
                                                 {% endif %}
                                                 {% endif %}
