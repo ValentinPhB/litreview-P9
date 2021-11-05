@@ -36,7 +36,7 @@ Python 3.8.0
 ### A) *Setup for Unix*
 
 Only first-time use :
-After downloading litereview-P9.zip from Github, extract it to a location of your choice (exemple : "PATH").
+After downloading litereview-P9-main.zip from Github, extract it to a location of your choice (exemple : "PATH").
 Or if you use git, download it from https://github.com/ValentinPhB/litreview-P9
 
 Create a virtual environment in "PATH" and install packages from requirements.txt.
@@ -56,7 +56,7 @@ $ python3 manage.py runserver
 ### B) *Setup for Windows* 
 
 Only first-time use :
-After downloading litereview-P9.zip from Github, extract it to a location of your choice (exemple : "PATH").
+After downloading litereview-P9-main.zip from Github, extract it to a location of your choice (exemple : "PATH").
 Or if you use git, download it from https://github.com/ValentinPhB/litreview-P9
 
 Then, using cmd, go to "PATH", create a virtual environment and install packages from requirements.txt.
