@@ -2,16 +2,15 @@
 
 ## Table of contents
 
-1. General info
-2. Technologies
-3. Setup
-Setup for Unix
-Setup for Windows
-5. Run
-6. Comptes
-7. Author
+1. [General info](#1-general-info)
+2. [Technologies](#2-technologies)
+3. [Setup](#3-setup)
+    - [Setup for Unix](#a-setup-for-unix)
+    - [Setup for Windows](#b-setup-for-windows)
+4. [Comptes](#4-comptes)
+5. [Author](#5-author)
 
-## General info
+## 1. General info
 
 Student project for OC. Web application : Reviews for articles and books.
 
@@ -19,7 +18,7 @@ With LiteReview you can follows/unfollow users, post/adjust your reviews of book
 You can also require reviews and answer to other followed users.
 
 
-## Technologies
+## 2. Technologies
 
 Python 3.8.0
 
@@ -32,7 +31,7 @@ Python 3.8.0
 - sqlparse==0.4.2
 - toml==0.10.2
 
-## Setup
+## 3. Setup
 ### A) *Setup for Unix*
 
 Only first-time use :
@@ -47,7 +46,6 @@ $ source env/bin/activate
 $ python3 -m pip install -U pip
 $ pip install -r requirements.txt
 ```
-## Run
 #### *Run local server for Unix* 
 ```
 $ python3 manage.py runserver
@@ -67,13 +65,12 @@ $ env\Scripts\activate.bat
 $ py -m pip install -U pip
 $ pip install -r requirements.txt
 ```
-## Run
 #### *Run local server for Windows*
 ```
 $ python manage.py runserver
 ```
 
-## 5. Comptes
+## 4. Comptes
 
 - SuperUser :   val
 - mdp:          a
@@ -84,6 +81,6 @@ $ python manage.py runserver
 - user :        louis
 - mdp :         azert12345
 
-## 6. Author
+## 5. Author
 
 Valentin Pheulpin
