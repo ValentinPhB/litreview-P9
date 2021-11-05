@@ -50,6 +50,12 @@ $ pip install -r requirements.txt
 ```
 $ python3 manage.py runserver
 ```
+Ubuntu :
+Use alt + click on http:// adresse.
+
+Mac :
+
+Use option + click on http:// adresse.
 
 ### B) *Setup for Windows* 
 
@@ -69,6 +75,7 @@ $ pip install -r requirements.txt
 ```
 $ python manage.py runserver
 ```
+Use alt + click on http:// adresse.
 
 ## 4. Comptes
 
