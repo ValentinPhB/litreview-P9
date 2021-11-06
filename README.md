@@ -14,8 +14,8 @@
 
 Student project for OC. Web application : Reviews for articles and books.
 
-With LiteReview you can follows/unfollow users, post/adjust your reviews of books and articles.
-You can also require reviews and answer to other followed users.
+With LITReview you can follow/unfollow users, post/adjust your reviews of books and articles.
+You can also require reviews and answer to followed users.
 
 
 ## 2. Technologies
