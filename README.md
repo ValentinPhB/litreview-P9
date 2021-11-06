@@ -1,4 +1,4 @@
-# LitReview WebApp
+# LITReview WebApp
 
 ## Table of contents
 
