@@ -17,27 +17,33 @@ def home(request):
     Home view, shows tickets and reviews [::-1]. Manage AnswerForm if users want to submit and answer to tickets.
     """
     form = forms.AnswerForm()
-
+    
     my_tickets = models.Ticket.objects.filter(user=request.user)
     my_tickets_a = my_tickets.annotate(content_type=Value('TICKET', CharField()))
 
     my_reviews = models.Review.objects.filter(user=request.user)
     my_reviews_a = my_reviews.annotate(content_type=Value('REVIEW', CharField()))
 
-    reviews_to_me = [obj.user.id for obj in models.Review.objects.all() if obj.ticket.user == request.user]
-    reviews_to_me_a = (models.Review.objects.filter(user__in=reviews_to_me).annotate(content_type=Value('REVIEW', CharField())))
+    reviews_to_me = [obj.id for obj in models.Review.objects.all() if obj.ticket.user == request.user]
+    reviews_to_me_a = (models.Review.objects.filter(id__in=reviews_to_me).annotate(content_type=Value('REVIEW', CharField())))
 
     follows_users = [obj.follows.id for obj in models.UserFollows.objects.filter(
         followed_by=request.user)]
 
     follows_tickets_a = (models.Ticket.objects.filter(
         user__in=follows_users).annotate(content_type=Value('TICKET', CharField())))
+    
+    # If followed user's tickets and a review > it will show it
+    follows_tickets_answer = [obj.id for obj in models.Review.objects.all() if obj.ticket.user.id in follows_users]
+    follows_tickets_answer_a = (models.Review.objects.filter(
+        id__in=follows_tickets_answer).annotate(content_type=Value('REVIEW', CharField())))
 
     follows_reviews_a = (models.Review.objects.filter(
         user__in=follows_users).annotate(content_type=Value('REVIEW', CharField())))
-    
+ 
     posts = sorted(
-        list(set(chain(my_tickets_a, my_reviews_a, reviews_to_me_a, follows_tickets_a, follows_reviews_a))),
+        list(set(chain(my_tickets_a, my_reviews_a, reviews_to_me_a,
+             follows_tickets_a, follows_tickets_answer_a, follows_reviews_a))),
         key=lambda post: post.time_created, 
         reverse=True)
 
@@ -215,14 +221,19 @@ def follow(request):
     if request.method == 'POST':
         if 'user_string' in request.POST:
             user_string = request.POST.get('user_string')
-            try :
-                user_followed = User.objects.get(username=user_string)
-                instance = models.UserFollows.objects.create(followed_by=request.user, follows=user_followed)
+            if user_string != request.user.username:
+                try :
+                    user_followed = User.objects.get(username=user_string)
+                    instance = models.UserFollows.objects.create(followed_by=request.user, follows=user_followed)
+                    messages.add_message(
+                        request, messages.SUCCESS, "Utilisateur ajouté à votre liste d'abonnement.")
+                except (ObjectDoesNotExist, IntegrityError):
+                    messages.add_message(
+                        request, messages.ERROR, "Veuillez vérifier l'orthographe de votre entrée, cet utilisateur est peut être déja suivi.")
+                    return redirect('follow')
+            else:
                 messages.add_message(
-                    request, messages.SUCCESS, "Utilisateur ajouté à votre liste d'abonnement.")
-            except (ObjectDoesNotExist, IntegrityError):
-                messages.add_message(
-                    request, messages.ERROR, "Veuillez vérifier l'orthographe de votre entrée, cet utilisateur est peut être déja suivi.")
+                    request, messages.ERROR, "Attention, la valeur entrée est votre propre nom d'utilisateur.")
                 return redirect('follow')
         # Delete relation 
         elif 'specific_user' in request.POST:
